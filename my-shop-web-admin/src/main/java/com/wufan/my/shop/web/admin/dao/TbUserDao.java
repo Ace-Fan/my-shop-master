@@ -4,6 +4,7 @@ import com.wufan.my.shop.domain.TbUser;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface TbUserDao {
@@ -40,24 +41,29 @@ public interface TbUserDao {
     void  update(TbUser tbUser);
 
     /**
-     * 根据用户名进行模糊匹配
-     * @param username
-     * @return
-     */
-    List<TbUser> selectByUsername(String username);
-
-    /**
      * 根据邮箱查询用户信息
      * @param email
      * @return
      */
     TbUser getByEmail(String email);
 
+
     /**
-     * 搜索
-     * @param tbUser
+     * 批量删除
+     * @param ids
+     */
+    void deleteMulti(String[] ids);
+
+    /**
+     * 分页查询
+     * @param params 记录开始数和每页记录数
      * @return
      */
-    List<TbUser> search(TbUser tbUser);
+    List<TbUser> page(Map<String,Object> params);
 
+    /**
+     * 查询总记录数
+     * @return
+     */
+    int count(TbUser tbUser);
 }

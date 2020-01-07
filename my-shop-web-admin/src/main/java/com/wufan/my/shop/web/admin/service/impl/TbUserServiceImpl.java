@@ -1,6 +1,7 @@
 package com.wufan.my.shop.web.admin.service.impl;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
+import com.wufan.my.shop.commons.dto.PageInfo;
 import com.wufan.my.shop.commons.utils.RegexpUtils;
 import com.wufan.my.shop.domain.TbUser;
 import com.wufan.my.shop.web.admin.dao.TbUserDao;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ：WuFan
@@ -71,11 +74,6 @@ public class TbUserServiceImpl implements TbUserService {
     }
 
     @Override
-    public List<TbUser> selectByUsername(String username) {
-        return tbUserDao.selectByUsername(username);
-    }
-
-    @Override
     public TbUser login(String email, String password) {
         TbUser tbUser = tbUserDao.getByEmail(email);
 
@@ -92,8 +90,28 @@ public class TbUserServiceImpl implements TbUserService {
     }
 
     @Override
-    public List<TbUser> search(TbUser tbUser) {
-        return tbUserDao.search(tbUser);
+    public void deleteMulti(String[] ids) {
+        tbUserDao.deleteMulti(ids);
+    }
+
+    @Override
+    public PageInfo<TbUser> page(int draw,int start, int length,TbUser tbUser) {
+        int count = tbUserDao.count(tbUser);
+        Map<String,Object> params = new HashMap<>();
+        params.put("start",start);
+        params.put("length",length);
+        params.put("tbUser",tbUser);
+        PageInfo<TbUser> pageInfo = new PageInfo<>();
+        pageInfo.setDraw(draw);
+        pageInfo.setRecordsTotal(count);
+        pageInfo.setRecordsFiltered(count);
+        pageInfo.setData(tbUserDao.page(params));
+        return pageInfo;
+    }
+
+    @Override
+    public int count(TbUser tbUser) {
+        return tbUserDao.count(tbUser);
     }
 
     /**

@@ -16,13 +16,13 @@ public class BaseResult implements Serializable {
     private String message;
 
     public  static BaseResult success(){
-        return BaseResult.createResult(STATUS_SUCCESS,"成功");
+        return BaseResult.createResult(STATUS_SUCCESS,"请求成功");
     }
     public static BaseResult success(String message){
         return BaseResult.createResult(STATUS_SUCCESS,message);
     }
     public static BaseResult fail(){
-        return BaseResult.createResult(STATUS_FAIL,"失败");
+        return BaseResult.createResult(STATUS_FAIL,"请求失败");
     }
     public static BaseResult fail(String message){
         return BaseResult.createResult(STATUS_FAIL,message);

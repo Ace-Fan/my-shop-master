@@ -21,7 +21,7 @@
             <entry key="com.zeroturnaround.jrebel.remoting.ModuleRemoteServerPreviousEnabledSelection" value="instance" />
             <entry key="com.zeroturnaround.jrebel.remoting.ModuleRemoteServerSelection" value="off" />
             <entry key="jrebelEnabled" value="true" />
-            <entry key="lastExternalPluginCheckTime" value="1574688247597" />
+            <entry key="lastExternalPluginCheckTime" value="1578314008781" />
           </map>
         </option>
         <option name="masterModuleName" />
@@ -29,6 +29,7 @@
         <option name="remotingEnabled" value="false" />
         <option name="secure" value="true" />
         <option name="url" />
+        <option name="useRelativePathsInXml" value="false" />
         <option name="xmlDir" />
       </configuration>
     </facet>

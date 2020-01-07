@@ -1,6 +1,7 @@
 package com.wufan.my.shop.web.admin.service;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
+import com.wufan.my.shop.commons.dto.PageInfo;
 import com.wufan.my.shop.domain.TbUser;
 
 
@@ -8,17 +9,37 @@ import java.util.List;
 
 public interface TbUserService {
 
+    /**
+     * 查询所有
+     * @return
+     */
     public List<TbUser> selectAll();
 
+    /**
+     * 保存用户信息
+     * @param tbUser
+     * @return
+     */
     BaseResult save(TbUser tbUser);
 
+    /**
+     * 删除用户信息
+     * @param id
+     */
     void delete(Long id);
 
+    /**
+     * 根据Id获取用户信息
+     * @param id
+     * @return
+     */
     TbUser getById(Long id);
 
+    /**
+     * 更新用户信息
+     * @param tbUser
+     */
     void  update(TbUser tbUser);
-
-    List<TbUser> selectByUsername(String username);
 
     /**
      * 用户登录
@@ -29,9 +50,22 @@ public interface TbUserService {
     TbUser login(String email,String password);
 
     /**
-     * 搜索功能
-     * @param tbUser
+     * 批量删除
+     * @param ids
+     */
+    void deleteMulti(String[] ids);
+
+    /**
+     * 分页查询
+     * @param start
+     * @param length
      * @return
      */
-    List<TbUser> search(TbUser tbUser);
+    PageInfo<TbUser> page(int draw,int start, int length,TbUser tbUser);
+
+    /**
+     * 查询总记录数
+     * @return
+     */
+    int count(TbUser tbUser);
 }

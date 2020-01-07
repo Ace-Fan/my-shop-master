@@ -83,15 +83,5 @@
         </dependency>
         <!--Database End-->
 
-        <!-- Json Begin -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-        </dependency>
-        <!-- Json End -->
     </dependencies>
 </project>
