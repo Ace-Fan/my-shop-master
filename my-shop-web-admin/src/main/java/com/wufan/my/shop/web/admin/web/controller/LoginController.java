@@ -1,6 +1,5 @@
 package com.wufan.my.shop.web.admin.web.controller;
 
-import com.sun.deploy.net.HttpResponse;
 import com.wufan.my.shop.commons.constant.ConstantUtils;
 import com.wufan.my.shop.commons.utils.CookieUtils;
 import com.wufan.my.shop.domain.TbUser;

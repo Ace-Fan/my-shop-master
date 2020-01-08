@@ -160,6 +160,7 @@ var App = function () {
         return _dataTable;
     };
 
+
     /**
      * 查看详情
      * @param url
@@ -175,7 +176,39 @@ var App = function () {
             }
         })
     }
-    
+
+    /**
+     * 声明zTree
+     * @param url
+     * @param autoParam
+     * @param callback
+     */
+    var handlerInitZTree = function (url,autoParam,callback) {
+        var setting = {
+            view: {
+                selectedMulti: false
+            },
+            async: {
+                enable: true,
+                url: url,
+                autoParam:autoParam
+            }
+        };
+        $.fn.zTree.init($("#myTree"), setting);
+        $("#btnOk").bind("click",function () {
+            var zTree = $.fn.zTree.getZTreeObj("myTree");
+            var nodes = zTree.getSelectedNodes();
+
+            //未选择
+            if (nodes.length == 0){
+                alert("请选择一个内容节点");
+            }
+            //已选择
+            else {
+                callback(nodes);
+            }
+        })
+    };
     return{
         /**
          *初始化复选框
@@ -209,6 +242,16 @@ var App = function () {
          */
         showDetail :function (url) {
           handlerShowDetail(url);
+        },
+
+        /**
+         * 初始化 zTree
+         * @param url
+         * @param autoParam
+         * @param callback
+         */
+        initZTree :function (url,autoParam,callback) {
+            handlerInitZTree(url,autoParam,callback);
         }
     }
 }();
