@@ -2,6 +2,7 @@ package com.wufan.my.shop.web.admin.service.impl;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
 import com.wufan.my.shop.commons.dto.PageInfo;
+import com.wufan.my.shop.commons.validator.BeanValidator;
 import com.wufan.my.shop.domain.TbContent;
 import com.wufan.my.shop.web.admin.dao.TbContentDao;
 import com.wufan.my.shop.web.admin.service.TbContentService;
@@ -29,14 +30,17 @@ public class TbContentServiceImpl implements TbContentService {
 
     @Override
     public BaseResult save(TbContent tbContent) {
+        String validator = BeanValidator.validator(tbContent);
+        //验证不通过
+        if(validator !=null){
+            return BaseResult.fail(validator);
+        }
         //通过验证
-        BaseResult baseResult = checkTbContent(tbContent);
-        if (baseResult.getStatus() == BaseResult.STATUS_SUCCESS){
+        else {
             tbContent.setUpdated(new Date());
-
-            tbContent.setUpdated(new Date());
-            //新增内容
+            //新增用户
             if (tbContent.getId() == null){
+                //密码加密处理
                 tbContent.setCreated(new Date());
                 tbContentDao.insert(tbContent);
             }
@@ -44,9 +48,8 @@ public class TbContentServiceImpl implements TbContentService {
             else {
                 tbContentDao.update(tbContent);
             }
-            baseResult.setMessage("保存内容信息成功");
+            return BaseResult.success("保存用户信息成功");
         }
-        return baseResult;
     }
 
     @Override
@@ -89,37 +92,4 @@ public class TbContentServiceImpl implements TbContentService {
         return tbContentDao.count(tbContent);
     }
 
-    /**
-     *内容信息的有效性验证
-     * @param tbContent
-     */
-    private BaseResult checkTbContent(TbContent tbContent){
-        BaseResult baseResult = BaseResult.success();
-        //非空验证
-        if (tbContent.getCategoryId() == null){
-            baseResult = BaseResult.fail("内容的上级分类不为空，请重新输入");
-        }
-        else if (tbContent.getTitle() == null){
-            baseResult = BaseResult.fail("内容的标题不为空，请重新输入");
-        }
-        else  if (tbContent.getSubTitle() == null){
-            baseResult = BaseResult.fail("内容的子标题不为空，请重新输入");
-        }
-        else if (tbContent.getTitleDesc() == null){
-            baseResult = BaseResult.fail("内容的标题描述不为空，请重新输入");
-        }
-        else  if (tbContent.getUrl() == null){
-            baseResult = BaseResult.fail("链接的描述不为空，请重新输入");
-        }
-        else if(tbContent.getPic() == null){
-            baseResult = BaseResult.fail("图片的绝对路径不为空，请重新输入");
-        }
-        else if(tbContent.getPic2() == null){
-            baseResult = BaseResult.fail("图片2不为空，请重新输入");
-        }
-        else if(tbContent.getContent() == null){
-            baseResult = BaseResult.fail("内容不为空，请重新输入");
-        }
-        return  baseResult;
-    }
 }

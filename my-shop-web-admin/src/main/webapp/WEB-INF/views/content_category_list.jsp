@@ -56,14 +56,14 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${tbContentCategories}" var="tbContentCategory">
-                                    <tr id="${tbContentCategory.id}" pId="${tbContentCategory.parentId}">
-                                <td>${tbContentCategory.id}</td>
-                                <td>${tbContentCategory.name}</td>
-                                <td>${tbContentCategory.sortOrder}</td>
+                                    <tr id="${tbContentCategory.id}" pId="${tbContentCategory.parent.id}">
+                                        <td>${tbContentCategory.id}</td>
+                                        <td>${tbContentCategory.name}</td>
+                                        <td>${tbContentCategory.sortOrder}</td>
                                         <td>
-                                            <a href="#" type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> 编辑</a>&nbsp;&nbsp;
-                                            <button href="#" type="button" class="btn btn-danger btn-sm"><i class="fa fa-remove"></i> 删除</button>&nbsp;&nbsp;
-                                            <a href="#" type="button" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> 新增下级菜单</a>&nbsp;&nbsp;
+                                            <a href="/content/category/form?id=${tbContentCategory.id}" type="button" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</a>&nbsp;&nbsp;&nbsp;
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="App.deleteSingle('/content/category/delete', '${tbContentCategory.id}', '警告：该删除操作会将包括选中类目在内的全部子类目及属于类目的内容一并删除，请谨慎操作！您还确定继续吗？')"><i class="fa fa-trash-o"></i> 删除</button>&nbsp;&nbsp;&nbsp;
+                                            <a href="/content/category/form?parent.id=${tbContentCategory.id}&parent.name=${tbContentCategory.name}" type="button" class="btn btn-sm btn-default"><i class="fa fa-plus"></i> 添加下级菜单</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
