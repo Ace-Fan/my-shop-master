@@ -1,6 +1,7 @@
 package com.wufan.my.shop.web.admin.service.impl;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
+import com.wufan.my.shop.commons.dto.PageInfo;
 import com.wufan.my.shop.commons.validator.BeanValidator;
 import com.wufan.my.shop.domain.TbContentCategory;
 import com.wufan.my.shop.web.admin.dao.TbContentCategoryDao;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Kirsh
@@ -91,5 +94,29 @@ public class TbContentCategoryServiceImpl implements TbContentCategoryService {
         tbContentCategoryDao.update(entity);
     }
 
+    @Override
+    public void deleteMulti(String[] ids) {
+        tbContentCategoryDao.deleteMulti(ids);
+    }
+
+    @Override
+    public PageInfo<TbContentCategory> page(int draw, int start, int length, TbContentCategory entity) {
+        int count = tbContentCategoryDao.count(entity);
+        Map<String,Object> params = new HashMap<>();
+        params.put("start",start);
+        params.put("length",length);
+        params.put("tbContent",entity);
+        PageInfo<TbContentCategory> pageInfo = new PageInfo<>();
+        pageInfo.setDraw(draw);
+        pageInfo.setRecordsTotal(count);
+        pageInfo.setRecordsFiltered(count);
+        pageInfo.setData(tbContentCategoryDao.page(params));
+        return pageInfo;
+    }
+
+    @Override
+    public int count(TbContentCategory entity) {
+        return tbContentCategoryDao.count(entity);
+    }
 
 }
