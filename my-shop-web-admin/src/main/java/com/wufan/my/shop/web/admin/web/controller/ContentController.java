@@ -118,6 +118,7 @@ public class ContentController {
 
         //封装分页插件DataTables结果
         PageInfo<TbContent> pageInfo = tbContentService.page(draw, start, length,tbContent);
+
         return pageInfo;
     }
 

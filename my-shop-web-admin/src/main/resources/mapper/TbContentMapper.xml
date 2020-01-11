@@ -12,7 +12,13 @@
     a.pic2,
     a.content,
     a.created,
-    a.updated
+    a.updated,
+    b.id AS "tbContentCategory.id",
+    b.name AS "tbContentCategory.name"
+    </sql>
+
+    <sql id="tbContenJoins">
+   LEFT JOIN tb_content_category AS b ON a.category_id = b.id
     </sql>
 
     <select id="selectAll" resultType="TbContent">
@@ -20,6 +26,7 @@
         <include refid="tbContentColumns"/>
         FROM
         tb_content AS a
+        <include refid="tbContenJoins"/>
     </select>
     <insert id="insert">
 INSERT INTO tb_content (
@@ -36,7 +43,7 @@ INSERT INTO tb_content (
 )
 VALUES
   (
-    #{categoryId},
+    #{tbContentCategory.id},
     #{title},
     #{subTitle},
     #{titleDesc},
@@ -45,10 +52,11 @@ VALUES
     #{pic2},
     #{content},
     #{created},
-    #{updated}
+    #{updated},
+    b.name AS "tbContentCategory.name"
   );
-
 	</insert>
+
     <delete id="delete">
         DELETE FROM tb_content WHERE id = #{id}
     </delete>
@@ -58,14 +66,16 @@ VALUES
         <include refid="tbContentColumns"/>
         FROM
         tb_content AS a
+        <include refid="tbContenJoins"/>
         WHERE
         a.id = #{id}
     </select>
+
     <update id="update">
        UPDATE
      tb_content
    SET
-      `category_id` = #{categoryId},
+      `category_id` = #{tbContentCategory.id},
       `title` = #{title},
       `sub_title` = #{subTitle},
       `title_desc` = #{titleDesc},
@@ -92,6 +102,7 @@ VALUES
         <include refid="tbContentColumns"/>
         FROM
         tb_content AS a
+        <include refid="tbContenJoins"/>
         <where>
             <if test="tbContent.title != null and tbContent.title != ''">
                 AND a.title LIKE CONCAT ('%',#{tbContent.title},'%')

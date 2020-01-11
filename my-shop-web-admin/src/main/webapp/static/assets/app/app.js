@@ -9,6 +9,24 @@ var App = function () {
     //存放ID数组
     var _idArray;
 
+    //默认的Dropzone参数
+    var defaultDropzoneOpts = {
+        url: "",
+        paramName: "dropFile",
+        maxFiles: 1, // 一次性上传的文件数量上限
+        maxFilesize: 2, // 文件大小，单位：MB
+        acceptedFiles: ".jpg,.gif,.png,.jpeg", // 上传的类型
+        addRemoveLinks: true,
+        parallelUploads: 1, // 一次上传的文件数量
+        dictDefaultMessage: '拖动文件至此或者点击上传',
+        dictMaxFilesExceeded: "您最多只能上传1个文件！",
+        dictResponseError: '文件上传失败!',
+        dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg",
+        dictFallbackMessage: "浏览器不受支持",
+        dictFileTooBig: "文件过大上传文件最大支持",
+        dictRemoveLinks: "删除",
+        dictCancelUpload: "取消"
+    };
     var handlerInitCheckbox = function () {
         // 激活 iCheck
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
@@ -101,7 +119,7 @@ var App = function () {
                                 });
                             }
                             //模态框调用
-                            $("#modal-message").html(data.message);
+                            $("#modal- message").html(data.message);
                             $("#modal-default").modal("show");
                         }
                     });
@@ -160,6 +178,17 @@ var App = function () {
         return _dataTable;
     };
 
+    /**
+     * 初始化 Dropzone
+     * @param opts
+     */
+    var handlerInitDropzone = function (opts) {
+        // 关闭 Dropzone 的自动发现功能
+        Dropzone.autoDiscover = false;
+        // 继承
+        $.extend(defaultDropzoneOpts, opts);
+        new Dropzone(defaultDropzoneOpts.id, defaultDropzoneOpts);
+    };
 
     /**
      * 查看详情
@@ -235,7 +264,13 @@ var App = function () {
         initDataTables : function (url,columns) {
             return handlerInitDataTables(url,columns);
         },
-
+        /**
+         *初始化 Dropzone
+         * @param opts
+         */
+        initDropzone :function(opts){
+            handlerInitDropzone(opts);
+        },
         /**
          * 显示详情
          * @param url

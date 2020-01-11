@@ -26,7 +26,7 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li class="active">控制面板</li>
+                <li class="active">分类编辑</li>
             </ol>
         </section>
 
@@ -54,8 +54,8 @@
                                     <label class="col-sm-2 control-label">父级类目</label>
 
                                     <div class="col-sm-10">
-                                        <form:hidden  path="parentId" />
-                                        <input id="parentName" class="form-control" placeholder="请选择" readonly="true" data-toggle="modal" data-target="#modal-default" />
+                                        <form:hidden id="parentId" path="parent.id"/>
+                                        <input id="parentName" class="form-control required" placeholder="请选择" readonly="true" data-toggle="modal" data-target="#modal-default" value="${tbContentCategory.parent.name}"/>
                                     </div>
                                 </div>
 

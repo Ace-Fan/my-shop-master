@@ -8,6 +8,8 @@
     <title>罗霄山商城 | 内容管理</title>
     <jsp:include page="../includes/header.jsp"/>
     <link rel="stylesheet" href="/static/assets/plugins/jquery-ztree/css/zTreeStyle/zTreeStyle.min.css">
+    <link rel="stylesheet" href="/static/assets/plugins/dropzone/dropzone.css">
+    <link rel="stylesheet" href="/static/assets/plugins/dropzone/min/basic.min.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -45,11 +47,11 @@
                             <form:hidden path="id"/>
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="categoryId" class="col-sm-2 control-label">父级类目</label>
+                                    <label for="tbContentCategory.id" class="col-sm-2 control-label">父级类目</label>
                                     <div class="col-sm-10">
-                                        <form:hidden path="categoryId"/>
+                                        <form:hidden id="categoryId" path="tbContentCategory.id"/>
                                         <input id="categoryName" class="form-control required" readonly="true"
-                                               placeholder="请选择" data-toggle="modal" data-target="#modal-default"/>
+                                               placeholder="请选择" data-toggle="modal" data-target="#modal-default" value="${tbContent.tbContentCategory.name}"/>
                                     </div>
                                 </div>
 
@@ -128,6 +130,7 @@
 </div>
 <jsp:include page="../includes/footer.jsp"/>
 <script src="/static/assets/plugins/jquery-ztree/js/jquery.ztree.core-3.5.min.js"></script>
+<script src="/static/assets/plugins/dropzone/min/dropzone.min.js"></script>
 <script src="/static/assets/plugins/wangEditor/release/wangEditor.min.js"></script>
 <!--自定义模态框-->
 <sys:modal title="请选择" message="<ul id='myTree' class='ztree'></ul>"/>
@@ -141,6 +144,27 @@
         });
         initWangEditor();
     });
+
+    App.initDropzone({
+        id: "#dropz",
+        url: "/upload",
+        init: function () {
+            this.on("success", function (file, data) {
+                $("#pic").val(data.fileName);
+            });
+        }
+    });
+
+    App.initDropzone({
+        id: "#dropz2",
+        url: "/upload",
+        init: function () {
+            this.on("success", function (file, data) {
+                $("#pic").val(data.fileName);
+            });
+        }
+    });
+
     /**
      * 初始化富文本编辑器
      */
@@ -151,7 +175,6 @@
         editor.customConfig.uploadImgServer = '/upload';
         editor.customConfig.uploadFileName = 'editorFiles';
         editor.create();
-
         $("#btnSubmit").bind("click", function() {
             var contentHtml = editor.txt.html();
             $("#content").val(contentHtml);

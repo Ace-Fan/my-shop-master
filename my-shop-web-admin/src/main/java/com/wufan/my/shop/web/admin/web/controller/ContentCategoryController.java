@@ -1,7 +1,6 @@
 package com.wufan.my.shop.web.admin.web.controller;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
-import com.wufan.my.shop.domain.TbContent;
 import com.wufan.my.shop.domain.TbContentCategory;
 import com.wufan.my.shop.web.admin.service.TbContentCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,7 @@ public class ContentCategoryController {
     @ModelAttribute
     public TbContentCategory getTbContentCategory(Long id){
         TbContentCategory tbContentCategory = null;
+
         //id 不为空，从数据库获取
         if (id != null){
             tbContentCategory = tbContentCategoryService.getById(id);
@@ -62,7 +62,7 @@ public class ContentCategoryController {
         return "content_category_form";
     }
     /**
-     * 保存内容信息
+     * 保存内容分类信息
      * @param tbContentCategory
      * @return
      */
@@ -70,15 +70,12 @@ public class ContentCategoryController {
     public String save(TbContentCategory tbContentCategory, Model model, RedirectAttributes redirectAttributes){
         BaseResult baseResult = tbContentCategoryService.save(tbContentCategory);
 
-        //保存成功
-        if (baseResult.getStatus() == 200){
-            redirectAttributes.addFlashAttribute("baseResult",baseResult);
+        if (baseResult.getStatus() == 200) {
+            redirectAttributes.addFlashAttribute("baseResult", baseResult);
             return "redirect:/content/category/list";
-        }
-        //保存失败
-        else {
-            model.addAttribute("baseResult",baseResult);
-            return "content_category_form";
+        } else {
+            model.addAttribute("baseResult", baseResult);
+            return form(tbContentCategory);
         }
     }
     /**
