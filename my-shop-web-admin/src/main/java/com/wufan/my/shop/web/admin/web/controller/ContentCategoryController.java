@@ -2,8 +2,8 @@ package com.wufan.my.shop.web.admin.web.controller;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
 import com.wufan.my.shop.domain.TbContentCategory;
+import com.wufan.my.shop.web.admin.abstracts.AbstractBaseTreeController;
 import com.wufan.my.shop.web.admin.service.TbContentCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,10 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "content/category")
-public class ContentCategoryController {
-
-    @Autowired
-    private TbContentCategoryService tbContentCategoryService;
+public class ContentCategoryController extends AbstractBaseTreeController<TbContentCategory,TbContentCategoryService> {
 
     @ModelAttribute
     public TbContentCategory getTbContentCategory(Long id){
@@ -33,7 +30,7 @@ public class ContentCategoryController {
 
         //id 不为空，从数据库获取
         if (id != null){
-            tbContentCategory = tbContentCategoryService.getById(id);
+            tbContentCategory = service.getById(id);
         }
         else {
             tbContentCategory = new TbContentCategory();
@@ -41,10 +38,11 @@ public class ContentCategoryController {
         return tbContentCategory;
     }
 
+    @Override
     @RequestMapping(value = "list",method = RequestMethod.GET)
-    public String list(Model model){
+    public String list(Model model) {
         List<TbContentCategory> targetList = new ArrayList<>();
-        List<TbContentCategory> sourceList = tbContentCategoryService.selectAll();
+        List<TbContentCategory> sourceList = service.selectAll();
 
         //排序
         sortList(sourceList,targetList,0L);
@@ -68,7 +66,7 @@ public class ContentCategoryController {
      */
     @RequestMapping(value = "save",method = RequestMethod.POST)
     public String save(TbContentCategory tbContentCategory, Model model, RedirectAttributes redirectAttributes){
-        BaseResult baseResult = tbContentCategoryService.save(tbContentCategory);
+        BaseResult baseResult = service.save(tbContentCategory);
 
         if (baseResult.getStatus() == 200) {
             redirectAttributes.addFlashAttribute("baseResult", baseResult);
@@ -88,29 +86,6 @@ public class ContentCategoryController {
         if(id == null){
             id = 0L;
         }
-        return tbContentCategoryService.selectByPid(id);
-    }
-
-    /**
-     * 排序
-     * @param sourceList 源集合
-     * @param targetList 排序后集合
-     * @param parentId 父节点Id
-     */
-    private void sortList(List<TbContentCategory> sourceList,List<TbContentCategory> targetList,Long parentId){
-         for (TbContentCategory tbContentCategory : sourceList){
-             if(tbContentCategory.getParentId().equals(parentId)){
-                 targetList.add(tbContentCategory);
-                 //判断有无子节点,有则继续追加
-                 if(tbContentCategory.getIsParent()){
-                     for (TbContentCategory contentCategory : sourceList) {
-                         if(contentCategory.getParentId().equals(tbContentCategory.getId())){
-                             sortList(sourceList,targetList,tbContentCategory.getId());
-                             break;
-                         }
-                     }
-                 }
-             }
-         }
+        return service.selectByPid(id);
     }
 }
