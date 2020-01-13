@@ -52,8 +52,7 @@ VALUES
     #{pic2},
     #{content},
     #{created},
-    #{updated},
-    b.name AS "tbContentCategory.name"
+    #{updated}
   );
 	</insert>
 

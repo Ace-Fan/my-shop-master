@@ -82,7 +82,7 @@
      tb_content_category
    SET
       `id` = #{id},
-      `parent_id` = #{parentId},
+      `parent_id` = #{parent.id},
       `name` = #{name},
       `status` = #{status},
       `sort_order` = #{sortOrder},

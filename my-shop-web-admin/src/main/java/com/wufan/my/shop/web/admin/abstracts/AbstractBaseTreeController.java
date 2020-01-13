@@ -1,5 +1,6 @@
 package com.wufan.my.shop.web.admin.abstracts;
 
+import com.wufan.my.shop.commons.dto.BaseResult;
 import com.wufan.my.shop.commons.persistence.BaseTreeEntity;
 import com.wufan.my.shop.commons.persistence.BaseTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,13 @@ public abstract class AbstractBaseTreeController<T extends BaseTreeEntity,S exte
      * @return
      */
     public abstract String save(T entity, Model model, RedirectAttributes redirectAttributes);
+
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
+    public abstract BaseResult delete(String ids);
 
     /**
      * 树形结构
