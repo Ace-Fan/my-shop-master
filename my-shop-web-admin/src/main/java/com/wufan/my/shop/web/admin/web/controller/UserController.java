@@ -1,17 +1,17 @@
 package com.wufan.my.shop.web.admin.web.controller;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
-import com.wufan.my.shop.commons.dto.PageInfo;
 import com.wufan.my.shop.domain.TbUser;
 import com.wufan.my.shop.web.admin.abstracts.AbstractBaseController;
 import com.wufan.my.shop.web.admin.service.TbUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -94,48 +94,22 @@ public class UserController extends AbstractBaseController<TbUser,TbUserService>
         if(StringUtils.isNotBlank(ids)){
             String [] idArray = ids.split(",");
             service.deleteMulti(idArray);
-             baseResult = BaseResult.success("批量删除成功");
+             baseResult = BaseResult.success("删除成功");
         }
         else {
-            baseResult = BaseResult.fail("批量删除失败");
+            baseResult = BaseResult.fail(" 删除失败");
         }
         return baseResult;
     }
 
     /**
-     * 分页查询
-     * @param request
-     * @return
-     */
-    @Override
-    @ResponseBody
-    @RequestMapping(value = "page",method = RequestMethod.GET)
-    public PageInfo<TbUser> page(HttpServletRequest request,TbUser tbUser){
-
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String  strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
-        
-        //封装分页插件DataTables结果
-        PageInfo<TbUser> pageInfo = service.page(draw, start, length,tbUser);
-        return pageInfo;
-    }
-
-    /**
      * 显示用户详情
-     * @param tbUser
      * @return
      */
     @Override
-    @RequestMapping(value = "detail",method = RequestMethod.GET)
-    public String detail(TbUser tbUser){
-        System.out.println(tbUser.getUsername());
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
         return "user_detail";
     }
-
 
 }

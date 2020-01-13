@@ -4,9 +4,11 @@ import com.wufan.my.shop.commons.dto.BaseResult;
 import com.wufan.my.shop.commons.dto.PageInfo;
 import com.wufan.my.shop.commons.persistence.BaseEntity;
 import com.wufan.my.shop.commons.persistence.BaseService;
-import com.wufan.my.shop.domain.TbUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,12 +59,26 @@ public abstract class AbstractBaseController<T extends BaseEntity,S extends Base
      * @param entity
      * @return
      */
-    public abstract PageInfo<T> page(HttpServletRequest request, T entity);
+    @ResponseBody
+    @RequestMapping(value = "page" ,method = RequestMethod.POST)
+    public PageInfo<T> page(HttpServletRequest request, T entity){
+        String strDraw = request.getParameter("draw");
+        String strStart = request.getParameter("start");
+        String  strLength = request.getParameter("length");
+
+        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
+        int start = strStart == null ? 0 : Integer.parseInt(strStart);
+        int length = strLength == null ? 10 : Integer.parseInt(strLength);
+
+        //封装分页插件DataTables结果
+        PageInfo<T> pageInfo = service.page(draw, start, length,entity);
+
+        return pageInfo;
+    }
 
     /**
      * 跳转详情页
-     * @param tbUser
      * @return
      */
-    public abstract String detail(TbUser tbUser);
+    public abstract String detail();
 }

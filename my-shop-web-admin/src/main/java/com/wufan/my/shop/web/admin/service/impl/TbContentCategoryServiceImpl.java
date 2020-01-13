@@ -7,6 +7,7 @@ import com.wufan.my.shop.web.admin.abstracts.AbstractBaseTreeServiceImpl;
 import com.wufan.my.shop.web.admin.dao.TbContentCategoryDao;
 import com.wufan.my.shop.web.admin.service.TbContentCategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -16,9 +17,11 @@ import java.util.Date;
  */
 
 @Service
+@Transactional(readOnly = true)
 public class TbContentCategoryServiceImpl extends AbstractBaseTreeServiceImpl<TbContentCategory,TbContentCategoryDao> implements TbContentCategoryService {
 
     @Override
+    @Transactional(readOnly = false)
     public BaseResult save(TbContentCategory entity) {
         String validator = BeanValidator.validator(entity);
         if (validator != null) {

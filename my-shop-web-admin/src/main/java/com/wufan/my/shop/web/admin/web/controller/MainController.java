@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * @author ：WuFan
  * @date ：Created in 2019/11/16 0016 22:15
- * @description：
+ * @description： 跳转主页
  * @modified By：
  * @version: $
  */

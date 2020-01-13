@@ -1,8 +1,8 @@
 package com.wufan.my.shop.web.admin.web.controller;
 
 import com.wufan.my.shop.commons.dto.BaseResult;
-import com.wufan.my.shop.commons.dto.PageInfo;
 import com.wufan.my.shop.domain.TbContent;
+import com.wufan.my.shop.web.admin.abstracts.AbstractBaseController;
 import com.wufan.my.shop.web.admin.service.TbContentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author Kirsh
  * @date 2020/1/8 14:56
  */
 @Controller
 @RequestMapping(value = "content")
-public class ContentController {
+public class ContentController extends AbstractBaseController<TbContent,TbContentService> {
     @Autowired
     private TbContentService tbContentService;
 
@@ -91,44 +89,23 @@ public class ContentController {
         if(StringUtils.isNotBlank(ids)){
             String [] idArray = ids.split(",");
             tbContentService.deleteMulti(idArray);
-            baseResult = BaseResult.success("批量删除内容成功");
+            baseResult = BaseResult.success("删除内容成功");
         }
         else {
-            baseResult = BaseResult.fail("批量删除内容失败");
+            baseResult = BaseResult.fail("删除内容失败");
         }
         return baseResult;
     }
 
     /**
-     * 分页查询
-     * @param request
+     * 跳转详情页
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "page",method = RequestMethod.GET)
-    public PageInfo<TbContent> page(HttpServletRequest request, TbContent tbContent){
-
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String  strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
-
-        //封装分页插件DataTables结果
-        PageInfo<TbContent> pageInfo = tbContentService.page(draw, start, length,tbContent);
-
-        return pageInfo;
+    @Override
+    @RequestMapping(value = "detail", method = RequestMethod.GET)
+    public String detail() {
+        return "content_detail";
     }
 
-    /**
-     * 显示用户详情
-     * @param tbContent
-     * @return
-     */
-    @RequestMapping(value = "detail",method = RequestMethod.GET)
-    public String detail(TbContent tbContent){
-        return "content_detail";
-    }  
+
 }

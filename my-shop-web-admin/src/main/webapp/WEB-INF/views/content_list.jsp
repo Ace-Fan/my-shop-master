@@ -93,7 +93,7 @@
                             <table id="dataTable" class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th><input type="checkbox" class="minimal check_master"/></th>
+                                    <th><input type="checkbox" class="minimal icheck_master"/></th>
                                     <th>ID号</th>
                                     <th>所属分类</th>
                                     <th>标题</th>
@@ -174,9 +174,10 @@
             {
                 "data": function (row, type, val, meta) {
                     var detailUrl = "/content/detail?id=" + row.id;
+                    var deleteUrl = "/content/delete";
                     return '<button type="button" class="btn btn-info btn-sm" onclick="App.showDetail(\'' + detailUrl + '\');"><i class="fa fa-inbox"></i> 查看</button>&nbsp;&nbsp;' +
                         '<a href="/content/form?id=' + row.id + '" type="button" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> 编辑</a>&nbsp;&nbsp;' +
-                        '<button  type="button" class="btn btn-danger btn-sm" onclick="App.deleteMulti(\'/user/delete\')"> <i class="fa fa-remove"></i> 删除</button>';
+                        '<button  type="button" class="btn btn-danger btn-sm" onclick="App.deleteSingle(\''+deleteUrl+'\',\''+row.id+'\')"> <i class="fa fa-remove"></i> 删除</button>';
                 }
             }
         ];
