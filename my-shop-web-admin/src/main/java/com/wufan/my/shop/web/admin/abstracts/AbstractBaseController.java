@@ -60,7 +60,7 @@ public abstract class AbstractBaseController<T extends BaseEntity,S extends Base
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "page" ,method = RequestMethod.POST)
+    @RequestMapping(value = "page" ,method = RequestMethod.GET)
     public PageInfo<T> page(HttpServletRequest request, T entity){
         String strDraw = request.getParameter("draw");
         String strStart = request.getParameter("start");
