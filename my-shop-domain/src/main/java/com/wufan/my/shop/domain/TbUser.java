@@ -20,7 +20,7 @@ import javax.validation.constraints.Pattern;
 
 @Data
 public class TbUser extends BaseEntity {
-    @Length(min = 6,max = 20,message = "用户名长度必须介于6-20位之间")
+    @Length(min = 2,max = 12,message = "用户名长度必须介于2-12位之间")
          private String username;
          @JsonIgnore
          @Length(min = 6,max = 12,message = "密码长度必须介于6-12位之间")
