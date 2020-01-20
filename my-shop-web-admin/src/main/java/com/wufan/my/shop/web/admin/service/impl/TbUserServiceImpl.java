@@ -42,12 +42,13 @@ public class TbUserServiceImpl extends AbstractBaseServiceImpl<TbUser,TbUserDao>
             }
             //编辑用户
             else {
+                tbUser.setPassword(DigestUtils.md5DigestAsHex(tbUser.getPassword().getBytes()));
+                tbUser.setUpdated(new Date());
                 update(tbUser);
             }
             return BaseResult.success("保存用户信息成功");
         }
     }
-
     @Override
     public TbUser login(String email, String password) {
         TbUser tbUser = dao.getByEmail(email);
